@@ -40,7 +40,7 @@ data class User(
     }
 
     class Builder {
-        lateinit var id: String
+        var id: String = lastId.toString()
         var firstName: String? = null
         private set
         var lastName: String? = null
@@ -72,7 +72,7 @@ data class User(
             this.avatar = avatar
         }
 
-        fun raiting(rating: Int) = apply {
+        fun rating(rating: Int) = apply {
             this.rating = rating
         }
 
