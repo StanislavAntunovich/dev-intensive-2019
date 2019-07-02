@@ -47,7 +47,7 @@ data class User(
         private set
         var avatar: String? = null
         private set
-        var rating = 0
+        var rating: Int = 0
         private set
         var respect: Int = 0
         private set
@@ -80,7 +80,7 @@ data class User(
             this.respect = respect
         }
 
-        fun lastVisit(lastVisit: Date?) = apply {
+        fun lastVisit(lastVisit: Date? = Date()) = apply {
             this.lastVisit = lastVisit
         }
 
@@ -89,7 +89,16 @@ data class User(
         }
 
         fun build() : User {
-            return User(this)
+            val user = User(this)
+            lastId++
+            firstName = null
+            lastName = null
+            avatar = null
+            rating = 0
+            respect = 0
+            lastVisit = null
+            isOnline = false
+            return user
         }
 
     }
