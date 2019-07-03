@@ -9,7 +9,8 @@ const val MINUTE = 60 * SECOND
 const val HOUR = 60 * MINUTE
 const val DAY = 24 * HOUR
 
-val mins = Triple("минуту", "минуты", "минут")
+val seconds = Triple("секунду", "секунды", "секунд")
+val minutes = Triple("минуту", "минуты", "минут")
 val hours = Triple("час", "часа", "часов")
 val days = Triple("день", "дня", "дней")
 
@@ -60,7 +61,7 @@ private fun parsTimeDiff(delta: Long, units: TimeUnits): String {
     val time = abs(delta) / when (units) {
         TimeUnits.SECOND -> SECOND
         TimeUnits.MINUTE -> {
-            string = mins
+            string = minutes
             MINUTE
         }
         TimeUnits.HOUR -> {
@@ -89,8 +90,33 @@ private fun parsTimeDiff(delta: Long, units: TimeUnits): String {
 
 
 enum class TimeUnits {
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY
+    SECOND {
+        override fun plural(value: Int): String =
+            getStringVal(value, seconds)
+    },
+
+    MINUTE {
+        override fun plural(value: Int): String =
+            getStringVal(value, minutes)
+    },
+
+    HOUR {
+        override fun plural(value: Int): String =
+            getStringVal(value, hours)
+    },
+
+    DAY {
+        override fun plural(value: Int): String =
+            getStringVal(value, days)
+    };
+
+    abstract fun plural(value: Int): String
+
+    fun getStringVal(value: Int, variants: Triple<String,String,String>) : String {
+        return when {
+            (value % 10) in 2..4 && (value / 10 != 1) -> "$value ${variants.second}"
+            ((value % 10) == 1) && (value / 10 != 1) -> "$value ${variants.first}"
+            else -> "$value ${variants.third}"
+        }
+    }
 }
