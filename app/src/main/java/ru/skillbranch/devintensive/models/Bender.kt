@@ -95,12 +95,14 @@ class Bender(
             override fun nextQuestion(): Question = SERIAL
         },
         SERIAL("Мой серийный номер?", listOf("2716057")) {
-            override fun validateAnswer(answer: String): String = if (
-                answer.contains(Regex("\\D"))
-                && answer.length != 7
-            ) "Серийный номер содержит только цифры, и их 7"
-            else
-                ""
+            override fun validateAnswer(answer: String): String {
+                return if (
+                    answer.contains(Regex("\\D"))
+                    || answer.length != 7
+                ) "Серийный номер содержит только цифры, и их 7"
+                else
+                    ""
+            }
 
             override fun nextQuestion(): Question = IDLE
         },
