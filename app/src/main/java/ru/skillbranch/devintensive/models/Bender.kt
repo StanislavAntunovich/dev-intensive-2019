@@ -19,20 +19,20 @@ class Bender(
         if (!validation.isBlank())
             return "$validation\n${question.question}" to status.color
 
-        return if (question.answers.contains(answer)) {
+        return if (question.answers.contains(answer.toLowerCase())) {
             question = question.nextQuestion()
             "Отлично - ты справился\n" + if (question.question == Question.IDLE.question) {
                 "На этом все, вопросов больше нет"
             } else {
-                question.question to status.color
+                question.question
             } to status.color
         } else {
             status = status.nextStatus()
-            "Это не правильный ответ! " + if (status == Status.NORMAL) {
+            "Это неправильный ответ" + if (status == Status.NORMAL) {
                 reset()
-                "Давай все по новой\n${question.question}"
+                ". Давай все по новой\n${question.question}"
             } else {
-                question.question
+                "\n${question.question}"
             } to status.color
         }
     }
@@ -56,7 +56,7 @@ class Bender(
     }
 
     enum class Question(val question: String, val answers: List<String>) {
-        NAME("Как меня зовут?", listOf("Бендер", "bender")) {
+        NAME("Как меня зовут?", listOf("бендер", "bender")) {
             override fun validateAnswer(answer: String): String = if (answer.first().isUpperCase())
                 ""
             else
