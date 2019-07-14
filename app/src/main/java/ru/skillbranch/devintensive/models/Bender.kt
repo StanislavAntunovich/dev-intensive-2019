@@ -57,10 +57,12 @@ class Bender(
 
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf("бендер", "bender")) {
-            override fun validateAnswer(answer: String): String = if (answer.first().isUpperCase())
-                ""
-            else
-                "Имя должно начинаться с заглавной буквы"
+            override fun validateAnswer(answer: String): String {
+                return if (answer.first().isUpperCase())
+                    ""
+                else
+                    "Имя должно начинаться с заглавной буквы"
+            }
 
 
             override fun nextQuestion(): Question = PROFESSION
