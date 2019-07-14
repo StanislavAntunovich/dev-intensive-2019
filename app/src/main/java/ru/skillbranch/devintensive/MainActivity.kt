@@ -9,12 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
 
-private const val STATUS = "STATUS"
-private const val QUESTION = "QUESTION"
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+    private val STATUS = "STATUS"
+    private val QUESTION = "QUESTION"
 
     lateinit var benderImage: ImageView
     lateinit var textTxt: TextView
@@ -46,7 +48,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (v?.id == R.id.iv_send) {
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+            this.hideKeyboard()
+            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
             messageEt.setText("")
             val (r, g, b) = color
             benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
